@@ -20,7 +20,9 @@ TRAEFIK_RANCHER_SECRET_KEY=$(cat $TRAEFIK_RANCHER_SECRET && echo)
 
 TRAEFIK_ENTRYPOINTS_HTTP="\
   [entryPoints.http]
-  address = \":${TRAEFIK_HTTP_PORT}\"
+  address = \":${TRAEFIK_HTTP_PORT}\
+    [entryPoints.http.redirect]
+    entryPoint = "https""
 "
 
 TRAEFIK_ENTRYPOINTS_HTTPS="\
