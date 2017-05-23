@@ -4,7 +4,7 @@ LABEL maintainer "mch1307@gmail.com"
 # Set environment
 ENV SERVICE_NAME=traefik \
     SERVICE_HOME=/opt/traefik \
-    SERVICE_VERSION=v1.2.3 \
+    SERVICE_VERSION=v1.3.0-rc2 \
     SERVICE_URL=https://github.com/containous/traefik/releases/download 
 ENV SERVICE_RELEASE=${SERVICE_URL}/${SERVICE_VERSION}/traefik_linux-amd64 \
     PATH=${PATH}:${SERVICE_HOME}/bin
