@@ -25,6 +25,5 @@ EXPOSE 8000
 EXPOSE 80
 EXPOSE 443
 
-
 WORKDIR $SERVICE_HOME
 ENTRYPOINT ["/opt/traefik/bin/traefik-service.sh","start"]
