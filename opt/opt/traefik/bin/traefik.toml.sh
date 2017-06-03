@@ -23,6 +23,9 @@ TRAEFIK_RANCHER_ACCESS_KEY=${TRAEFIK_RANCHER_ACCESSKEY}
 TRAEFIK_RANCHER_SECRET_KEY=${TRAEFIK_RANCHER_SECRET}
 TRAEFIK_REFRESH_INTERVAL=${TRAEFIK_REFRESH_INTERVAL:-"15"}
 
+curl -o ${TRAEFIK_SSL_PATH}/traefik.key rancher-metadata/latest/self/service/metadata/traefik/ssl_key
+curl -o ${TRAEFIK_SSL_PATH}/traefik.crt rancher-metadata/latest/self/service/metadata/traefik/ssl_crt
+
 TRAEFIK_ENTRYPOINTS_HTTP="\
   [entryPoints.http]
   address = \":${TRAEFIK_HTTP_PORT}\"
@@ -37,8 +40,10 @@ TRAEFIK_ENTRYPOINTS_HTTPS="\
     [entryPoints.https.tls]"
        TRAEFIK_ENTRYPOINTS_HTTPS=$TRAEFIK_ENTRYPOINTS_HTTPS"
       [[entryPoints.https.tls.certificates]]
-      certFile = \"$TRAEFIK_SSL_CERT\" 
-      keyFile = \"$TRAEFIK_SSL_PRIVATE_KEY\" 
+      #certFile = \"$TRAEFIK_SSL_CERT\" 
+      certFile = ${TRAEFIK_SSL_PATH}/traefik.crt
+      #keyFile = \"$TRAEFIK_SSL_PRIVATE_KEY\" 
+      keyFile = ${TRAEFIK_SSL_PATH}/traefik.key
 "
 
 if [ "X${TRAEFIK_HTTPS_ENABLE}" == "Xtrue" ]; then
