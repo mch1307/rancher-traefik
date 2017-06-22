@@ -17,14 +17,8 @@ TRAEFIK_K8S_ENABLE=${TRAEFIK_K8S_ENABLE:-"false"}
 TRAEFIK_K8S_OPTS=${TRAEFIK_K8S_OPTS:-""}
 TRAEFIK_RANCHER_ENDPOINT=${TRAEFIK_RANCHER_ENDPOINT}
 TRAEFIK_RANCHER_DOMAIN=${TRAEFIK_RANCHER_DOMAIN}
-#TRAEFIK_RANCHER_ACCESS_KEY=$(cat $TRAEFIK_RANCHER_ACCESSKEY && echo)
-TRAEFIK_RANCHER_ACCESS_KEY=${TRAEFIK_RANCHER_ACCESSKEY}
-#TRAEFIK_RANCHER_SECRET_KEY=${cat $TRAEFIK_RANCHER_SECRET && echo)
-TRAEFIK_RANCHER_SECRET_KEY=${TRAEFIK_RANCHER_SECRET}
-TRAEFIK_REFRESH_INTERVAL=${TRAEFIK_REFRESH_INTERVAL:-"15"}
-
-curl -o ${TRAEFIK_SSL_PATH}/traefik.key rancher-metadata/latest/self/service/metadata/traefik/ssl_key
-curl -o ${TRAEFIK_SSL_PATH}/traefik.crt rancher-metadata/latest/self/service/metadata/traefik/ssl_crt
+TRAEFIK_RANCHER_ACCESS_KEY=$(cat $TRAEFIK_RANCHER_ACCESSKEY && echo)
+TRAEFIK_RANCHER_SECRET_KEY=$(cat $TRAEFIK_RANCHER_SECRET && echo)
 
 TRAEFIK_ENTRYPOINTS_HTTP="\
   [entryPoints.http]
@@ -40,10 +34,8 @@ TRAEFIK_ENTRYPOINTS_HTTPS="\
     [entryPoints.https.tls]"
        TRAEFIK_ENTRYPOINTS_HTTPS=$TRAEFIK_ENTRYPOINTS_HTTPS"
       [[entryPoints.https.tls.certificates]]
-      #certFile = \"$TRAEFIK_SSL_CERT\" 
-      certFile = ${TRAEFIK_SSL_PATH}/traefik.crt
-      #keyFile = \"$TRAEFIK_SSL_PRIVATE_KEY\" 
-      keyFile = ${TRAEFIK_SSL_PATH}/traefik.key
+      certFile = \"$TRAEFIK_SSL_CERT\" 
+      keyFile = \"$TRAEFIK_SSL_PRIVATE_KEY\" 
 "
 
 if [ "X${TRAEFIK_HTTPS_ENABLE}" == "Xtrue" ]; then
@@ -75,7 +67,6 @@ storage = \"${SERVICE_HOME}/acme/acme.json\"
 onDemand = ${TRAEFIK_ACME_ONDEMAND}
 OnHostRule = ${TRAEFIK_ACME_ONHOSTRULE}
 entryPoint = \"https\"
-
 "
 
 fi
@@ -100,7 +91,6 @@ Watch = true
 Endpoint = "${TRAEFIK_RANCHER_ENDPOINT}"
 AccessKey = "${TRAEFIK_RANCHER_ACCESS_KEY}"
 SecretKey = "${TRAEFIK_RANCHER_SECRET_KEY}"
-RefreshSeconds  = "${TRAEFIK_REFRESH_INTERVAL}"
 
 
 [file]
