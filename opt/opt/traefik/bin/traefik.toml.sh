@@ -28,6 +28,8 @@ TRAEFIK_ENTRYPOINTS_HTTP="\
 "
 
 
+if [ "X${TRAEFIK_ACME_ENABLE}" == "Xfalse" ]; then
+
 TRAEFIK_ENTRYPOINTS_HTTPS="\
   [entryPoints.https]
     address = \":${TRAEFIK_HTTPS_PORT}\"
@@ -38,13 +40,23 @@ TRAEFIK_ENTRYPOINTS_HTTPS="\
         keyFile = \"$TRAEFIK_SSL_PRIVATE_KEY\"
 "
 
+else
+
+TRAEFIK_ENTRYPOINTS_HTTPS="\
+  [entryPoints.https]
+    address = \":${TRAEFIK_HTTPS_PORT}\"
+    [entryPoints.https.tls]
+"
+
+fi
+
+
+
 if [ "X${TRAEFIK_HTTPS_ENABLE}" == "Xtrue" ]; then
     TRAEFIK_ENTRYPOINTS_OPTS=${TRAEFIK_ENTRYPOINTS_HTTP}${TRAEFIK_ENTRYPOINTS_HTTPS}
     TRAEFIK_ENTRYPOINTS='"http", "https"'
 elif [ "X${TRAEFIK_HTTPS_ENABLE}" == "Xonly" ]; then
     TRAEFIK_ENTRYPOINTS_HTTP=$TRAEFIK_ENTRYPOINTS_HTTP"\
-    [entryPoints.http.redirect]
-       entryPoint = \"https\"
 "
     TRAEFIK_ENTRYPOINTS_OPTS=${TRAEFIK_ENTRYPOINTS_HTTP}${TRAEFIK_ENTRYPOINTS_HTTPS}
     TRAEFIK_ENTRYPOINTS='"http", "https"'
