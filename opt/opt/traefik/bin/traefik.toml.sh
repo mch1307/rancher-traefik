@@ -22,20 +22,20 @@ TRAEFIK_RANCHER_SECRET_KEY=$(cat $TRAEFIK_RANCHER_SECRET && echo)
 
 TRAEFIK_ENTRYPOINTS_HTTP="\
   [entryPoints.http]
-  address = \":${TRAEFIK_HTTP_PORT}\"
+    address = \":${TRAEFIK_HTTP_PORT}\"
     [entryPoints.http.redirect]
-    entryPoint = \"https\"
+      entryPoint = \"https\"
 "
 
 
 TRAEFIK_ENTRYPOINTS_HTTPS="\
   [entryPoints.https]
-  address = \":${TRAEFIK_HTTPS_PORT}\"
+    address = \":${TRAEFIK_HTTPS_PORT}\"
     [entryPoints.https.tls]"
        TRAEFIK_ENTRYPOINTS_HTTPS=$TRAEFIK_ENTRYPOINTS_HTTPS"
       [[entryPoints.https.tls.certificates]]
-      certFile = \"$TRAEFIK_SSL_CERT\" 
-      keyFile = \"$TRAEFIK_SSL_PRIVATE_KEY\" 
+        certFile = \"$TRAEFIK_SSL_CERT\"
+        keyFile = \"$TRAEFIK_SSL_PRIVATE_KEY\"
 "
 
 if [ "X${TRAEFIK_HTTPS_ENABLE}" == "Xtrue" ]; then
@@ -48,7 +48,7 @@ elif [ "X${TRAEFIK_HTTPS_ENABLE}" == "Xonly" ]; then
 "
     TRAEFIK_ENTRYPOINTS_OPTS=${TRAEFIK_ENTRYPOINTS_HTTP}${TRAEFIK_ENTRYPOINTS_HTTPS}
     TRAEFIK_ENTRYPOINTS='"http", "https"'
-else 
+else
     TRAEFIK_ENTRYPOINTS_OPTS=${TRAEFIK_ENTRYPOINTS_HTTP}
     TRAEFIK_ENTRYPOINTS='"http"'
 fi
