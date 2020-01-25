@@ -7,5 +7,4 @@ Traefik image for deploying to Rancher Cattle. Use ssl wildcard certs and api ac
 
 Forked from https://github.com/rawmind0/rancher-traefik
 
-Usage example on http://blog.csnet.me/2017/07/11/rancher-traefik
-
+Usage example on https://blog.csnet.me/blog/2017-07-11-rancher-traefik/
